@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
- async redirects() {
+  images: {
+    domains: ['cdn.10minuteschool.com'],
+  },
+  async redirects() {
     return [
       {
         source: '/',
