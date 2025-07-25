@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CheckList from "@/components/CheckList/CheckList";
+import CourseDetails from "@/components/CourseDetails/CourseDetails";
+import FeaturesExplanations from "@/components/FeaturesExplanations/FeaturesExplanations";
 import Header from "@/components/Header/Header";
 import HeroSection from "@/components/HeroSection/HeroSection";
 import Instructor from "@/components/Instructor/Instructor";
+import LaidOut from "@/components/LaidOut/LaidOut";
 import MediaGallery from "@/components/MediaGallery/MediaGallery";
+import WhatYouLearn from "@/components/WhatYouLearn/WhatYouLearn";
 import { fetchProductData } from "@/services/api";
 
 interface PageProps {
@@ -19,6 +23,22 @@ export default async function Page({ params }: PageProps) {
   const instructorData = data.data.sections.find(
     (section: any) => section.type === "instructors"
   );
+
+  const laidOutData = data.data.sections.find(
+    (section: any) => section.type === "features"
+  );
+
+  const pointerData = data.data.sections.find(
+    (section: any) => section.type === "pointers"
+  );
+
+  const exclusiveFeatureData = data.data.sections.find(
+    (section: any) => section.type === "feature_explanations"
+  );
+  const aboutData = data.data.sections.find(
+    (section: any) => section.type === "about"
+  );
+
   return (
     <>
       <Header lang={lang} />
@@ -31,6 +51,10 @@ export default async function Page({ params }: PageProps) {
               <div className="">
                 <div>
                   <Instructor instructor={instructorData} />
+                  <LaidOut laidOut={laidOutData} />
+                  <WhatYouLearn pointer={pointerData} />
+                  <FeaturesExplanations features={exclusiveFeatureData} />
+                  <CourseDetails about={aboutData} />
                 </div>
               </div>
             </div>
