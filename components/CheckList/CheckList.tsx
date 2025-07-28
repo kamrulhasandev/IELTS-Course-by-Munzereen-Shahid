@@ -19,7 +19,7 @@ const CheckList: FC<{ data: CheckListItem[]; cta: CtaText }> = ({
   cta,
 }) => {
   return (
-    <div className="space-y-4 px-2 py-2">
+    <div className="space-y-4 px-2 py-2 ">
       <div className="space-y-4">
         <span className="inline-block text-2xl font-semibold">৳1000</span>
         <button className="bg-[#1bab54] rounded w-full py-2 text-white cursor-pointer hover:bg-[#53a774]">

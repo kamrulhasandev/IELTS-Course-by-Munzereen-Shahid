@@ -20,24 +20,15 @@ export default async function Page({ params }: PageProps) {
 
   const data = await fetchProductData(lang);
 
-  const instructorData = data.data.sections.find(
-    (section: any) => section.type === "instructors"
+  const sectionMap = Object.fromEntries(
+    data.data.sections.map((s: any) => [s.type, s])
   );
 
-  const laidOutData = data.data.sections.find(
-    (section: any) => section.type === "features"
-  );
-
-  const pointerData = data.data.sections.find(
-    (section: any) => section.type === "pointers"
-  );
-
-  const exclusiveFeatureData = data.data.sections.find(
-    (section: any) => section.type === "feature_explanations"
-  );
-  const aboutData = data.data.sections.find(
-    (section: any) => section.type === "about"
-  );
+  const instructorData = sectionMap["instructors"];
+  const laidOutData = sectionMap["features"];
+  const pointerData = sectionMap["pointers"];
+  const exclusiveFeatureData = sectionMap["feature_explanations"];
+  const aboutData = sectionMap["about"];
 
   return (
     <>
@@ -62,8 +53,7 @@ export default async function Page({ params }: PageProps) {
               </div>
             </div>
 
-            {/* fixed */}
-            <div className="md:w-1/3 w-full relative hidden md:block">
+            <div className="md:w-1/3 w-full relative hidden md:block ">
               <div className="w-full md:max-w-[330px] lg:max-w-[400px] mx-auto absolute right-0 -top-[300px] bg-white p-1 border border-gray-300">
                 <MediaGallery data={data.data.media} />
                 <CheckList

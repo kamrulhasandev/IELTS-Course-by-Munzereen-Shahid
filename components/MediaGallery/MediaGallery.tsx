@@ -6,6 +6,7 @@ import {
   IoIosArrowDroprightCircle,
   IoMdArrowDroprightCircle,
 } from "react-icons/io";
+
 type Medium = {
   id?: string | number;
   name: string;
@@ -23,11 +24,13 @@ const MediaGallery: React.FC<{ data: Medium[] }> = ({ data }) => {
     previewGalleryItems[0]
   );
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showVideo, setShowVideo] = useState(false);
 
   const nextMedia = () => {
     const nextIndex = (currentIndex + 1) % previewGalleryItems.length;
     setCurrentIndex(nextIndex);
     setSelectedMedia(previewGalleryItems[nextIndex]);
+    setShowVideo(false);
   };
 
   const prevMedia = () => {
@@ -36,21 +39,41 @@ const MediaGallery: React.FC<{ data: Medium[] }> = ({ data }) => {
       previewGalleryItems.length;
     setCurrentIndex(prevIndex);
     setSelectedMedia(previewGalleryItems[prevIndex]);
+    setShowVideo(false);
   };
 
   const selectMedia = (item: Medium, index: number) => {
     setSelectedMedia(item);
     setCurrentIndex(index);
+    setShowVideo(false);
   };
 
   const getYouTubeEmbedUrl = (videoId: string) => {
-    return `https://www.youtube.com/embed/${videoId}`;
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
   };
 
   return (
-    <div className="">
-      <div className="relative aspect-video bg-gray-900">
-        {selectedMedia.resource_type === "video" ? (
+    <div>
+      <div className="relative aspect-video bg-black overflow-hidden">
+        {selectedMedia.resource_type === "video" && !showVideo ? (
+          <div
+            className="w-full h-full relative cursor-pointer"
+            onClick={() => setShowVideo(true)}
+          >
+            <Image
+              src={
+                selectedMedia.thumbnail_url ||
+                `https://img.youtube.com/vi/${selectedMedia.resource_value}/hqdefault.jpg`
+              }
+              alt="Video thumbnail"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 flex items-center justify-center text-white bg-black/30">
+              <IoMdArrowDroprightCircle size={60} />
+            </div>
+          </div>
+        ) : selectedMedia.resource_type === "video" ? (
           <iframe
             src={getYouTubeEmbedUrl(selectedMedia.resource_value)}
             className="w-full h-full"
@@ -69,13 +92,13 @@ const MediaGallery: React.FC<{ data: Medium[] }> = ({ data }) => {
 
         <button
           onClick={prevMedia}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white cursor-pointer"
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white cursor-pointer z-10"
         >
           <IoIosArrowDropleftCircle size={30} />
         </button>
         <button
           onClick={nextMedia}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white cursor-pointer"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white cursor-pointer z-10"
         >
           <IoIosArrowDroprightCircle size={30} />
         </button>
